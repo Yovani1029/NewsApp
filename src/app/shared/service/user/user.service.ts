@@ -35,10 +35,7 @@ export class UserService {
       lastName: user.lastName,
       email: user.email,
       password: this.encryptPassword(user.password), // cifrada
-      country: {
-        id: user.country.id,
-        value: user.country.value
-      }
+      country: user.country
     };
 
     users.push(newUser);

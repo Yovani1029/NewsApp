@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/shared/service/user/user.service';
+import { CountryService } from 'src/app/shared/service/country/country.service';
+import { Country } from 'src/app/interfaces/country.page';
 
 @Component({
   selector: 'app-register',
@@ -15,38 +16,40 @@ export class RegisterPage implements OnInit {
     lastName: '',
     email: '',
     password: '',
-    country: { id: '', value: '' }
+    country: '' 
   };
 
-  countries: any[] = [];
+  countries: Country[] = [];
+  selectedCountry: Country | null = null;
+  showModal = false;
 
   constructor(
     private userService: UserService,
     private router: Router,
-    private http: HttpClient
+    private countryService: CountryService
   ) {}
 
   ngOnInit() {
-    this.loadCountries();
+    this.countryService.getCountries().subscribe({
+      next: (data) => this.countries = data,
+      error: (err) => console.error('Error cargando países', err)
+    });
   }
 
-  // 📌 Consumir API de países con banderas
-  loadCountries() {
-    this.http.get<any>('https://countriesnow.space/api/v0.1/countries/flag/images')
-      .subscribe({
-        next: (res) => {
-          this.countries = res.data.map((c: any) => ({
-            id: c.name,
-            value: `${c.flag} ${c.name}`
-          }));
-        },
-        error: (err) => {
-          console.error('Error cargando países', err);
-        }
-      });
+  openCountryModal() {
+    this.showModal = true;
   }
 
-  // 📌 Registrar usuario
+  closeModal() {
+    this.showModal = false;
+  }
+
+  selectCountry(c: Country) {
+    this.selectedCountry = c;
+    this.user.country = c.id; // guardamos solo el id
+    this.closeModal();
+  }
+
   register() {
     if (this.userService.register(this.user)) {
       alert('Usuario registrado con éxito ✅');

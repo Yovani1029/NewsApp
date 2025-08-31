@@ -4,8 +4,5 @@ export interface User {
   lastName: string;
   email: string;
   password: string;
-  country: {
-    id: string;
-    value: string;
-  };
+  country: string;
 }
