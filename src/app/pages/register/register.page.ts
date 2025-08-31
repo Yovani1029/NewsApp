@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/service/user/user.service';
 import { CountryService } from 'src/app/shared/service/country/country.service';
 import { Country } from 'src/app/interfaces/country.page';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
-  standalone : false
+  standalone: false
 })
 export class RegisterPage implements OnInit {
   user = {
@@ -16,7 +17,7 @@ export class RegisterPage implements OnInit {
     lastName: '',
     email: '',
     password: '',
-    country: '' 
+    country: ''
   };
 
   countries: Country[] = [];
@@ -26,8 +27,9 @@ export class RegisterPage implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private countryService: CountryService
-  ) {}
+    private countryService: CountryService,
+    private toastCtrl: ToastController
+  ) { }
 
   ngOnInit() {
     this.countryService.getCountries().subscribe({
@@ -50,12 +52,23 @@ export class RegisterPage implements OnInit {
     this.closeModal();
   }
 
-  register() {
+  private async showToast(message: string, color: 'success' | 'danger' = 'success') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      color
+    });
+    toast.present();
+  }
+
+
+  async register() {
     if (this.userService.register(this.user)) {
-      alert('Usuario registrado con éxito ✅');
+      await this.showToast('Usuario registrado con éxito ✅', 'success');
       this.router.navigate(['/login']);
     } else {
-      alert('El correo ya está registrado ❌');
+      await this.showToast('El correo ya está registrado ❌', 'danger');
     }
   }
+
 }
