@@ -1,0 +1,57 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+ion-toolbar {
+  --background: #1e40af;
+  --color: white;
+}
+
+.login-wrapper {
+  max-width: 400px;
+  margin: auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.logo {
+  width: 80px;
+  margin-bottom: 1rem;
+}
+
+form ion-item {
+  margin-bottom: 1rem;
+}
+
+ion-label {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+ion-input {
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+
+ion-button {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+ion-button[type="submit"] {
+  --background: #1e40af;
+  --color: white;
+}
+
+ion-button[fill="clear"] {
+  color: #1e40af;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}

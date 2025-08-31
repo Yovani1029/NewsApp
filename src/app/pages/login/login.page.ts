@@ -12,10 +12,7 @@ import { Login } from 'src/app/interfaces/login.interface';
 })
 export class LoginPage implements OnInit {
 
-  loginData: Login = {
-    email: '',
-    password: ''
-  };
+  loginData: Login = { email: '', password: '' };
 
   constructor(
     private userService: UserService,
@@ -23,14 +20,28 @@ export class LoginPage implements OnInit {
     private toastCtrl: ToastController
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
+
+  get isFormValid(): boolean {
+    return (
+      this.loginData.email.trim().length > 0 &&
+      this.isValidEmail(this.loginData.email) &&
+      this.loginData.password.trim().length >= 6
+    );
+  }
+
+  private isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
 
   async login() {
-    const valid = this.userService.login(this.loginData.email, this.loginData.password);
+    const user = this.userService.loginUser(this.loginData.email, this.loginData.password);
 
-    if(valid) {
+    if (user) {
+      localStorage.setItem('loggedUser', JSON.stringify(user));
       const toast = await this.toastCtrl.create({
-        message: 'Login exitoso ✅',
+        message: 'Login successful ✅',
         duration: 2000,
         color: 'success'
       });
@@ -38,7 +49,7 @@ export class LoginPage implements OnInit {
       this.router.navigate(['/home']);
     } else {
       const toast = await this.toastCtrl.create({
-        message: 'Email o contraseña incorrectos ❌',
+        message: 'Email or password incorrect ❌',
         duration: 2000,
         color: 'danger'
       });

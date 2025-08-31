@@ -25,16 +25,14 @@ export class UserService {
   register(user: Omit<User, 'id' | 'password'> & { password: string }): boolean {
     let users: User[] = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
 
-    if (users.find(u => u.email === user.email)) {
-      return false; 
-    }
+    if (users.find(u => u.email === user.email)) return false;
 
     const newUser: User = {
       id: uuidv4(),
       name: user.name,
       lastName: user.lastName,
       email: user.email,
-      password: this.encryptPassword(user.password), // cifrada
+      password: this.encryptPassword(user.password),
       country: user.country
     };
 
@@ -43,17 +41,24 @@ export class UserService {
     return true;
   }
 
-  login(email: string, password: string): boolean {
+  loginUser(email: string, password: string): User | null {
     const users: User[] = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
     const user = users.find(u => u.email === email);
-
-    if (!user) return false;
+    if (!user) return null;
 
     const decryptedPwd = this.decryptPassword(user.password);
-    return password === decryptedPwd;
+    return password === decryptedPwd ? user : null;
   }
 
   getAll(): User[] {
     return JSON.parse(localStorage.getItem(this.usersKey) || '[]');
+  }
+
+  logout() {
+    localStorage.removeItem('loggedUser');
+  }
+
+  getLoggedUser(): User | null {
+    return JSON.parse(localStorage.getItem('loggedUser') || 'null');
   }
 }

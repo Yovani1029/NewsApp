@@ -1,37 +1,33 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">
+      <span style="font-size: 1.8rem; font-weight: bold;">📰 NewsApp</span>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form (ngSubmit)="login()">
+  <div class="login-wrapper">
+    <img src="assets/logo-newsapp.png" alt="NewsApp Logo" class="logo" />
 
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input
-        type="email"
-        [(ngModel)]="loginData.email"
-        name="email"
-        required>
-      </ion-input>
-    </ion-item>
+    <form (ngSubmit)="login()">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" [(ngModel)]="loginData.email" name="email" required>
+        </ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input
-        type="password"
-        [(ngModel)]="loginData.password"
-        name="password"
-        required>
-      </ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type="password" [(ngModel)]="loginData.password" name="password" required>
+        </ion-input>
+      </ion-item>
 
-    <ion-button expand="block" type="submit">Iniciar sesión</ion-button>
+      <ion-button expand="block" type="submit" [disabled]="!isFormValid">Iniciar sesión</ion-button>
 
-    <ion-button expand="block" fill="clear" routerLink="/register">
-      ¿No tienes cuenta? Regístrate
-    </ion-button>
-
-  </form>
+      <ion-button expand="block" fill="clear" routerLink="/register">
+        Don’t have an account? Sign up
+      </ion-button>
+    </form>
+  </div>
 </ion-content>

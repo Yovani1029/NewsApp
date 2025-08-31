@@ -48,7 +48,7 @@ export class RegisterPage implements OnInit {
 
   selectCountry(c: Country) {
     this.selectedCountry = c;
-    this.user.country = c.id; // guardamos solo el id
+    this.user.country = c.id;
     this.closeModal();
   }
 
@@ -61,14 +61,48 @@ export class RegisterPage implements OnInit {
     toast.present();
   }
 
-
-  async register() {
-    if (this.userService.register(this.user)) {
-      await this.showToast('Usuario registrado con éxito ✅', 'success');
-      this.router.navigate(['/login']);
-    } else {
-      await this.showToast('El correo ya está registrado ❌', 'danger');
-    }
+  private isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
+
+  get isFormValid(): boolean {
+  return (
+    this.user.name.trim().length > 0 &&
+    this.user.lastName.trim().length > 0 &&
+    this.isValidEmail(this.user.email) &&
+    this.user.password.trim().length >= 6 &&
+    this.user.country !== ''
+  );
+}
+
+async register() {
+  if (!this.isValidEmail(this.user.email)) {
+    const toast = await this.toastCtrl.create({
+      message: 'Invalid email ❌',
+      duration: 2000,
+      color: 'danger'
+    });
+    return toast.present();
+  }
+
+  if (this.userService.register(this.user)) {
+    const toast = await this.toastCtrl.create({
+      message: 'User registered ✅',
+      duration: 2000,
+      color: 'success'
+    });
+    await toast.present();
+    this.router.navigate(['/login']);
+  } else {
+    const toast = await this.toastCtrl.create({
+      message: 'Email already registered ❌',
+      duration: 2000,
+      color: 'danger'
+    });
+    await toast.present();
+  }
+}
+
 
 }

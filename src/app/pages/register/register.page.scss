@@ -1,0 +1,96 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+ion-toolbar {
+  --background: #1e40af;
+  --color: white;
+}
+
+ion-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+ion-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+form {
+  width: 100%;
+  max-width: 420px;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+ion-item {
+  margin-bottom: 1rem;
+}
+
+ion-label {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+ion-input {
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+
+ion-button {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+ion-button[type="submit"] {
+  --background: #1e40af;
+  --color: white;
+}
+
+ion-button[fill="clear"] {
+  color: #1e40af;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+
+/* País seleccionado */
+ion-item[button] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  background-color: #f8fafc;
+  margin-bottom: 1rem;
+}
+
+/* Modal de países */
+ion-modal {
+  --width: 90%;
+  --height: 80%;
+  --border-radius: 12px;
+}
+
+ion-avatar img {
+  border-radius: 4px;
+}
+
+ion-list {
+  padding: 1rem;
+}
+
+ion-item[button]:hover {
+  background-color: #e0e7ff;
+  transition: background-color 0.3s ease;
+}
