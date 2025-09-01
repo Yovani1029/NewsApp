@@ -37,23 +37,23 @@ export class LoginPage implements OnInit {
 
   async login() {
     const user = this.userService.loginUser(this.loginData.email, this.loginData.password);
-
+  
     if (user) {
       localStorage.setItem('loggedUser', JSON.stringify(user));
-      const toast = await this.toastCtrl.create({
-        message: 'Login successful ✅',
-        duration: 2000,
-        color: 'success'
-      });
-      await toast.present();
+      await this.showToast('Login successful ✅', 'success');
       this.router.navigate(['/home']);
     } else {
-      const toast = await this.toastCtrl.create({
-        message: 'Email or password incorrect ❌',
-        duration: 2000,
-        color: 'danger'
-      });
-      await toast.present();
+      await this.showToast('Email or password incorrect ❌', 'danger');
     }
   }
+  
+  private async showToast(message: string, color: 'success' | 'danger') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      color
+    });
+    await toast.present();
+  }
+  
 }
