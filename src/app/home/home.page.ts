@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { Article, NewsService } from '../shared/providers/http-news';
+
 
 @Component({
   selector: 'app-home',
@@ -8,24 +8,20 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./home.page.scss'],
   standalone: false
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  news: Article[] = [];
 
-  constructor(private router: Router, private toastCtrl: ToastController) {}
+  constructor(private newsService: NewsService) {}
 
-  async logout() {
-    // Limpiar toda la sesión
-    localStorage.removeItem('loggedUser');  // elimina usuario logueado
-    localStorage.removeItem('otherData');   // si guardas más datos, también limpiar aquí
+  ngOnInit() {
+    this.loadRandomNews();
+  }
 
-    // Mostrar un mensaje
-    const toast = await this.toastCtrl.create({
-      message: 'You have been logged out ✅',
-      duration: 2000,
-      color: 'success'
-    });
-    toast.present();
+  loadRandomNews() {
+    this.newsService.getRandomNews().subscribe(data => this.news = data);
+  }
 
-    // Redirigir al login
-    this.router.navigate(['/login']);
+  loadCategory(cat: string) {
+    this.newsService.getTopHeadlines(cat).subscribe(data => this.news = data);
   }
 }
