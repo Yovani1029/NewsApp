@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Article } from 'src/app/shared/providers/http-news';
+import { Article } from 'src/app/interfaces/article.interface';
 @Component({
   standalone: false,
   selector: 'app-news-list',

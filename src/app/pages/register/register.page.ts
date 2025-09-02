@@ -65,6 +65,7 @@ export class RegisterPage implements OnInit {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
+  showPassword = false;
 
   get isFormValid(): boolean {
   return (

@@ -50,6 +50,24 @@ export class UserService {
     return password === decryptedPwd ? user : null;
   }
 
+  updateUser(updatedUser: User): boolean {
+    let users: User[] = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
+    const index = users.findIndex(u => u.id === updatedUser.id);
+  
+    if (index === -1) return false;
+  
+    users[index] = {
+      ...users[index],
+      ...updatedUser,
+      password: users[index].password
+     };
+  
+    localStorage.setItem(this.usersKey, JSON.stringify(users));
+    localStorage.setItem('loggedUser', JSON.stringify(users[index])); // refrescamos sesión
+    return true;
+  }
+  
+
   getAll(): User[] {
     return JSON.parse(localStorage.getItem(this.usersKey) || '[]');
   }
